@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'src/core/core.dart';
+
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Tractian Tree View Challenge', home: Scaffold());
+    return GetMaterialApp(
+      title: 'Tractian Tree View Challenge',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      getPages: Routes.getRoutes(),
+      initialRoute: Routes.initialRoute,
+    );
   }
 }
