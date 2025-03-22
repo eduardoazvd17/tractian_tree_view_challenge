@@ -1,12 +1,12 @@
 import 'package:http/http.dart' as http;
 
-abstract class IHttpClient {
+abstract class IHttpRequestClient {
   Future<http.Response> get(String url);
 }
 
-class HttpClient extends IHttpClient {
+class HttpRequestClient extends IHttpRequestClient {
   final http.Client _client;
-  HttpClient() : _client = http.Client();
+  HttpRequestClient() : _client = http.Client();
 
   @override
   Future<http.Response> get(String url) async {

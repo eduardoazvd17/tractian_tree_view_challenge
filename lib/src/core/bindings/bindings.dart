@@ -1,1 +1,1 @@
-export 'shared_bindings.dart';
+export 'shared_binding.dart';
