@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
+import '../../core/core.dart';
 import 'home.dart';
 
 class HomeRoutes {
@@ -7,7 +8,7 @@ class HomeRoutes {
     GetPage(
       name: HomePage.routeName,
       page: () => const HomePage(),
-      binding: HomeBinding(),
+      bindings: [SharedBinding(), HomeBinding()],
     ),
   ];
 }

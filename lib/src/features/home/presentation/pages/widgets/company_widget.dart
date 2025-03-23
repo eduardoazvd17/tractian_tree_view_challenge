@@ -21,7 +21,7 @@ class CompanyWidget extends StatelessWidget {
           BoxShadow(
             blurRadius: 10,
             offset: Offset(0, 5),
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Theme.of(context).shadowColor,
           ),
         ],
       ),

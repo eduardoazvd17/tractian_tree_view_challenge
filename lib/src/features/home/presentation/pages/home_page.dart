@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/core.dart';
+import '../../../assets/assets.dart';
 import '../../home.dart';
 
 class HomePage extends GetWidget<HomeController> {
@@ -30,7 +31,18 @@ class HomePage extends GetWidget<HomeController> {
           itemCount: controller.companies.length,
           itemBuilder: (context, index) {
             final CompanyEntity company = controller.companies[index];
-            return CompanyWidget(company: company, onTap: () {});
+            return CompanyWidget(
+              company: company,
+              onTap: () {
+                Get.toNamed(
+                  AssetsPage.routeName,
+                  arguments: AssetsPageArguments(
+                    companyId: company.id,
+                    companyName: company.name,
+                  ),
+                );
+              },
+            );
           },
         );
       }),

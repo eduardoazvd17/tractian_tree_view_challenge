@@ -13,9 +13,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Tractian Tree View Challenge',
       theme: lightTheme,
-      darkTheme: darkTheme,
       getPages: Routes.getRoutes(),
-      initialBinding: SharedBinding(),
       initialRoute: Routes.initialRoute,
     );
   }
