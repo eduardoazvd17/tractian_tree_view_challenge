@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       getPages: Routes.getRoutes(),
+      initialBinding: SharedBinding(),
       initialRoute: Routes.initialRoute,
     );
   }
