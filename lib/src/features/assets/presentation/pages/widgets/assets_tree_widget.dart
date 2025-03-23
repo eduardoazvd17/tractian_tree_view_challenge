@@ -25,6 +25,7 @@ class AssetsTreeWidget extends GetWidget<AssetsController> {
 
       return ListView.builder(
         itemCount: controller.itemsWithoutParent.length,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         itemBuilder: (context, index) {
           final TreeItemEntity item = controller.itemsWithoutParent[index];
           return AssetTreeItemWidget(
