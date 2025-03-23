@@ -6,6 +6,10 @@ class AssetEntity extends TreeItemEntity {
   final String? sensorType;
   final String? status;
 
+  bool get isOperating => status == 'operating';
+  bool get isEnergySensor => sensorType == 'energy';
+  bool get isVibrationSensor => sensorType == 'vibration';
+
   const AssetEntity({
     required super.id,
     required super.name,

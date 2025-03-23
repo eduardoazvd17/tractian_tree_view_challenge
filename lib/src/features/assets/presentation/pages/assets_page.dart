@@ -74,7 +74,7 @@ class _AssetsPageState extends State<AssetsPage> {
           ),
           Divider(height: 0, color: Theme.of(context).dividerColor),
           const SizedBox(height: 5),
-          Expanded(child: AssetsTreeWidget()),
+          Expanded(child: TreeWidget()),
         ],
       ),
     );

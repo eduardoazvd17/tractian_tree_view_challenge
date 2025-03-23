@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 import '../../../../../core/core.dart';
 import '../../../assets.dart';
 
-class AssetTreeItemWidget extends StatefulWidget {
-  final TreeItemEntity item;
+class TreeItemWidget extends StatefulWidget {
+  final TreeItemEntity treeItem;
   final List<TreeItemEntity> Function(TreeItemEntity) getChildrenItems;
   final int parentChildrenLength;
-  const AssetTreeItemWidget({
+  const TreeItemWidget({
     super.key,
-    required this.item,
+    required this.treeItem,
     required this.getChildrenItems,
     required this.parentChildrenLength,
   });
 
   @override
-  State<AssetTreeItemWidget> createState() => _AssetTreeItemWidgetState();
+  State<TreeItemWidget> createState() => _TreeItemWidgetState();
 }
 
-class _AssetTreeItemWidgetState extends State<AssetTreeItemWidget> {
+class _TreeItemWidgetState extends State<TreeItemWidget> {
   late final List<TreeItemEntity> _children;
   bool _isExpanded = false;
 
   @override
   void initState() {
-    _children = widget.getChildrenItems(widget.item);
+    _children = widget.getChildrenItems(widget.treeItem);
     super.initState();
   }
 
@@ -32,12 +32,21 @@ class _AssetTreeItemWidgetState extends State<AssetTreeItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final String assetIcon = switch (widget.item) {
+    final String assetIcon = switch (widget.treeItem) {
       AssetEntity(:final sensorId) =>
         sensorId == null ? CustomAssets.assetIcon : CustomAssets.componentIcon,
       LocationEntity() => CustomAssets.locationIcon,
       _ => throw Exception('Invalid item type'),
     };
+
+    final Icon? sensorIcon =
+        widget.treeItem is AssetEntity
+            ? (widget.treeItem as AssetEntity).isEnergySensor
+                ? Icon(Icons.bolt, color: Colors.green, size: 20)
+                : (widget.treeItem as AssetEntity).isVibrationSensor
+                ? Icon(Icons.circle, color: Colors.red, size: 12)
+                : null
+            : null;
 
     return AnimatedSize(
       curve: Curves.ease,
@@ -86,7 +95,8 @@ class _AssetTreeItemWidgetState extends State<AssetTreeItemWidget> {
                     ),
                   ),
                   Image.asset(assetIcon, height: 24),
-                  Flexible(child: Text(widget.item.name)),
+                  Flexible(child: Text(widget.treeItem.name)),
+                  if (sensorIcon != null) sensorIcon,
                 ],
               ),
             ),
@@ -106,8 +116,8 @@ class _AssetTreeItemWidgetState extends State<AssetTreeItemWidget> {
               child: Column(
                 children:
                     _children.map((child) {
-                      return AssetTreeItemWidget(
-                        item: child,
+                      return TreeItemWidget(
+                        treeItem: child,
                         getChildrenItems: widget.getChildrenItems,
                         parentChildrenLength: _children.length,
                       );
