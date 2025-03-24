@@ -32,6 +32,7 @@ class AssetsController extends GetxController {
   final RxSet<String> _expandedItemsIds = RxSet<String>();
 
   bool isItemExpanded(String itemId) => _expandedItemsIds.contains(itemId);
+
   void toggleIsItemExpanded(String itemId) {
     _expandedItemsIds.contains(itemId)
         ? _expandedItemsIds.remove(itemId)
