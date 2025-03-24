@@ -30,7 +30,6 @@ class TreeWidget extends GetWidget<AssetsController> {
           final TreeItemEntity item = controller.itemsWithoutParent[index];
           return TreeItemWidget(
             treeItem: item,
-            getChildrenItems: controller.getChildrenItems,
             parentChildrenLength: controller.itemsWithoutParent.length,
           );
         },

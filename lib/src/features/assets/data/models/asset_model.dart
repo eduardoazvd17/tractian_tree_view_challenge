@@ -1,7 +1,7 @@
 import '../../assets.dart';
 
 class AssetModel extends AssetEntity {
-  AssetModel({
+  const AssetModel({
     required super.id,
     required super.name,
     required super.parentId,

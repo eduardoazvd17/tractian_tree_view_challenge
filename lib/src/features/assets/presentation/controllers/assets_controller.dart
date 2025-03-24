@@ -29,19 +29,70 @@ class AssetsController extends GetxController {
   final RxList<AssetEntity> _assets = RxList<AssetEntity>();
   final RxList<TreeItemEntity> itemsWithoutParent = RxList<TreeItemEntity>();
   final RxList<TreeItemEntity> _itemsWithParent = RxList<TreeItemEntity>();
+  final RxSet<String> _expandedItemsIds = RxSet<String>();
+
+  bool isItemExpanded(String itemId) => _expandedItemsIds.contains(itemId);
+  void toggleIsItemExpanded(String itemId) {
+    _expandedItemsIds.contains(itemId)
+        ? _expandedItemsIds.remove(itemId)
+        : _expandedItemsIds.add(itemId);
+  }
 
   List<TreeItemEntity> getChildrenItems(TreeItemEntity item) =>
       _itemsWithParent.where((i) => i.parentId == item.id).toList();
 
   void _filterItems() {
-    itemsWithoutParent.assignAll([
-      ..._locations.where((location) => location.parentId == null),
-      ..._assets.where((asset) => asset.parentId == null),
-    ]);
-    _itemsWithParent.assignAll([
-      ..._locations.where((location) => location.parentId != null),
-      ..._assets.where((asset) => asset.parentId != null),
-    ]);
+    final List<TreeItemEntity> allItems = [..._locations, ..._assets];
+    final Set<TreeItemEntity> filteredItems = {};
+
+    final bool hasFilters =
+        searchText.value.isNotEmpty ||
+        isEnergySensorSelected.value ||
+        isCriticalSelected.value;
+
+    if (hasFilters) {
+      for (final item in allItems) {
+        bool matchesFilter = false;
+        if (!matchesFilter && searchText.value.isNotEmpty) {
+          matchesFilter = item.name.toLowerCase().contains(
+            searchText.value.toLowerCase().trim(),
+          );
+        }
+        if (!matchesFilter &&
+            isEnergySensorSelected.value &&
+            item is AssetEntity) {
+          matchesFilter = item.isOperatingStatus;
+        }
+        if (!matchesFilter && isCriticalSelected.value && item is AssetEntity) {
+          matchesFilter = item.isAlertStatus;
+        }
+
+        if (matchesFilter) {
+          filteredItems.add(item);
+          String? currentParentId = item.parentId;
+          while (currentParentId != null) {
+            final parent = allItems.firstWhere(
+              (i) => i.id == currentParentId,
+              orElse: () => throw Exception('Parent not found'),
+            );
+            filteredItems.add(parent);
+            currentParentId = parent.parentId;
+          }
+        }
+      }
+    } else {
+      filteredItems.addAll(allItems);
+    }
+
+    itemsWithoutParent.assignAll(
+      filteredItems.where((item) => item.parentId == null).toList(),
+    );
+    _itemsWithParent.assignAll(
+      filteredItems.where((item) => item.parentId != null).toList(),
+    );
+
+    itemsWithoutParent.sort((a, b) => a.name.compareTo(b.name));
+    _itemsWithParent.sort((a, b) => a.name.compareTo(b.name));
   }
 
   void onSearchTextChanged(String value) {

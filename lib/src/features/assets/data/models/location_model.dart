@@ -1,7 +1,7 @@
 import '../../assets.dart';
 
 class LocationModel extends LocationEntity {
-  LocationModel({
+  const LocationModel({
     required super.id,
     required super.name,
     required super.parentId,
