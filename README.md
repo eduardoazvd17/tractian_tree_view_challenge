@@ -30,10 +30,9 @@ This application provides an intuitive interface for visualizing and managing in
 ## Technical Implementation
 
 ### Architecture
-- Built with Flutter 3.x
+- Built with Flutter 3.29+
 - Follows clean architecture principles
-- Implements BLoC pattern for state management
-- Uses proper dependency injection
+- Implements GetX for state management and dependency injection
 
 ### Data Structure
 The application handles three main types of entities:
@@ -111,7 +110,7 @@ If given more time, I would focus on the following improvements:
 
 ## Dependencies
 
-- Flutter 3.x
+- Flutter 3.29+
 - GetX for routes, state management and dependency injection
 - Other essential Flutter packages
 
